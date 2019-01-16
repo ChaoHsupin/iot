@@ -1,16 +1,6 @@
 # encoding:utf-8
 # 外部文件引入
-import pojo
-import crabapple as crab
-from config import getResponse, log
-# 依赖模块
-import time
-import datetime
-import re
-import pymysql
-from flask_cors import CORS
-from DBUtils.PooledDB import PooledDB
-from flask import Flask, request, render_template, jsonify, send_from_directory, make_response
+import src.crabapple as crab
 
 
 # add sensor
@@ -61,40 +51,25 @@ def editSensor(req):
                 res[i]=values[i]
             sql="UPDATE sensor SET device_id={}, identification=\"{}\", sensor_name=\"{}\", sensor_type=\"{}\"," \
                 " unit=\"{}\",value_max={},value_min={},is_warn={},sort={} WHERE " \
-                "sensor_id={}".format(values['device_id'],values['identification'],
-                 values['sensor_name'],values['sensor_type'],values['unit'],values['value_max'],
-                 values['value_min'],values['is_warn'],values['sort'],sensor_id)
+                "sensor_id={}".format(res['device_id'],res['identification'],
+                                      res['sensor_name'],res['sensor_type'],res['unit'],res['value_max'],
+                                      res['value_min'],res['is_warn'],res['sort'],sensor_id)
             crab.sqlExe(sql)
             return crab.responseMsg(0,"Edit sensor information successfully!")
         except:
             return crab.responseMsg(1, "Edit sensor information failure!")
 
 
-# list sensor
-def getSensors(req):
-    if not crab.checkToken(req):
-        return crab.responseMsg(0,"Your identity is not identified!")
-    sql = "SELECT * FROM sensor WHERE"
-    try:
-        values = req.get_json()
-        sql += crab.getByConditions(values)
-    except:
-        sql=sql
-    try:
-        res=sensorPojo(crab.sqlExe(sql))
-        return crab.responseDate(0,res)
-    except:
-        return crab.responseMsg(1,"Get sensor information failure!")
 
 
 # sensor
 def getSensors(req):
     if not crab.checkToken(req):
         return crab.responseMsg(0,"Your identity is not identified!")
-    sql = "SELECT * FROM sensor WHERE"
+    sql = "SELECT * FROM sensor"
     try:
         values = req.get_json()
-        sql += crab.getByConditions(values)
+        sql +=(" WHERE" +crab.getByConditions(values))
     except:
         sql=sql
     try:

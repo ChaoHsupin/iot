@@ -6,8 +6,6 @@ import time
 from flask import Flask
 
 
-
-
 def getResponse(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Content-Type'] = 'application/json'

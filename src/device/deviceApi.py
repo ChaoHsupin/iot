@@ -1,16 +1,7 @@
 # encoding:utf-8
 # 外部文件引入
-import pojo
-import crabapple as crab
-from config import getResponse, log
-# 依赖模块
-import time
-import datetime
-import re
-import pymysql
-from flask_cors import CORS
-from DBUtils.PooledDB import PooledDB
-from flask import Flask, request, render_template, jsonify, send_from_directory, make_response
+
+import src.crabapple as crab
 
 
 # add device
@@ -58,7 +49,7 @@ def editDevice(req):
             for i in values:
                 res[i]=values[i]
             sql="UPDATE device SET device_name=\"{}\", device_type=\"{}\", place=\"{}\", is_control={}, is_public={} WHERE " \
-                "device_id={}".format(res['device_name'],res['device_type'],res['place'],res['is_control'],res['is_public'],res['user_id'])
+                "device_id={}".format(res['device_name'],res['device_type'],res['place'],res['is_control'],res['is_public'],res['device_id'])
             crab.sqlExe(sql)
             return crab.responseMsg(0,"Edit device information successfully!")
         except:
@@ -105,7 +96,7 @@ def getDeviceAndsensorList(req):
     except:
         sql=sql
     try:
-        res = devicePojo(crab.sqlExe(sql))
+        res = deviceSensorPojo(crab.sqlExe(sql))
         return crab.responseDate(0, res)
     except:
         return crab.responseMsg(1, "Get device information failure!")

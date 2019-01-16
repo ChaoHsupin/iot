@@ -1,17 +1,13 @@
 # encoding:utf-8
 # 外部文件引入
-import pojo
-import crabapple as crab
-from config import getResponse, log
+
 # 依赖模块
 from random import sample
 import time
-import datetime
 import re
 import pymysql
-from flask_cors import CORS
 from DBUtils.PooledDB import PooledDB
-from flask import Flask, request, render_template, jsonify, send_from_directory, make_response
+from flask import render_template, jsonify, make_response
 
 db_config = {"host": "localhost",
              "user": "root",

@@ -1,22 +1,15 @@
 # encoding:utf-8
 
 # 外部文件引入
-import pojo
-import crabapple as crab
-from config import getResponse, log
-import user.userApi as userApi
-import device.deviceApi as deviceApi
-import sensor.sensorApi as sensorApi
-import monitor.monitorApi as monitorApi
 
+from flask import Flask, request
 # 依赖模块
-import time
-import datetime
-import re
-import pymysql
 from flask_cors import CORS
-from DBUtils.PooledDB import PooledDB
-from flask import Flask, request, render_template, jsonify, send_from_directory, make_response
+
+import src.device.deviceApi as deviceApi
+import src.monitor.monitorApi as monitorApi
+import src.sensor.sensorApi as sensorApi
+import src.user.userApi as userApi
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
