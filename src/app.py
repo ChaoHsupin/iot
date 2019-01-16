@@ -15,6 +15,12 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 
+# 首页
+@app.route('/', methods=['GET'])
+def index():
+    return app.send_static_file('index.html')
+
+
 # 用户登陆
 @app.route('/user/login', methods=['POST'])
 def login():
