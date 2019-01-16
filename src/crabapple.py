@@ -1,13 +1,12 @@
 # encoding:utf-8
 # 外部文件引入
-
 # 依赖模块
-from random import sample
 import time
-import re
+from random import sample
+
 import pymysql
 from DBUtils.PooledDB import PooledDB
-from flask import render_template, jsonify, make_response
+from flask import jsonify, make_response
 
 db_config = {"host": "localhost",
              "user": "root",
