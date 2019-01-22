@@ -1,17 +1,17 @@
 # encoding:utf-8
 # 外部文件引入
 # 依赖模块
+import hashlib
 import time
 from random import sample
-
 import pymysql
 from DBUtils.PooledDB import PooledDB
 from flask import jsonify, make_response
 
-db_config = {"host": "localhost",
+db_config = {"host": "www.crabapple.xyz",
              "user": "root",
              "passwd": "123456",
-             "db": "iot",
+             "db": "IOT",
              "charset": "utf8"
              }
 
@@ -30,6 +30,20 @@ def sqlExe(SQL):
 
 global userId
 userId=-1
+
+
+#getToken
+def getToken(userId,username,password):
+    if userId==None or username==None or password==None:
+        return None
+    dictStr=str({"userId":userId,"username":username,"password":password})
+    set_time = str((int(time.time()))+3600)
+    tokenMethod=hashlib.md5("MD5".encode(encoding='UTF-8')).hexdigest()
+    tokenTime=hashlib.md5(set_time.encode(encoding='UTF-8')).hexdigest()
+    tokenInfo=hashlib.md5(dictStr.encode(encoding='UTF-8')).hexdigest()
+    token=tokenMethod+"."+tokenTime+"."+tokenInfo
+    return token
+
 
 #get userId
 def getUserId():

@@ -1,6 +1,6 @@
 # encoding:utf-8
-
-# 外部文件引入
+import _thread
+from concurrent.futures import thread
 
 from flask import Flask, request
 # 依赖模块
@@ -10,6 +10,7 @@ import src.device.deviceApi as deviceApi
 import src.monitor.monitorApi as monitorApi
 import src.sensor.sensorApi as sensorApi
 import src.user.userApi as userApi
+import src.tcp.tcp as tcp
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -109,8 +110,26 @@ def deviceAndsensorList():
 def sensorAndDataList():
     return sensorApi.getSensorAndDataList(request)
 
+#获取档位值
+@app.route('/getRank', methods=['POST'])
+def getRank():
+    return tcp.getRank(request)
+
+
+
+
+
+#开启接受数据服务
+# tcp.tcpServer()
+try:
+    _thread.start_new_thread(tcp.tcpServer, ())
+except:
+   print ("Error: unable to start thread")
+
 
 
 if __name__ == "__main__":
     app.config['JSON_AS_ASCII'] = False
-    app.run(debug=False)
+    app.run(host='0.0.0.0',port=5000,debug=False)
+
+

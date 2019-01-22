@@ -83,7 +83,7 @@ def getSensors(req):
 def getSensorAndDataList(req):
     if not crab.checkToken(req):
         return crab.responseMsg(0,"Your identity is not identified!")
-    sql = "SELECT * FROM sensor,monitor WHERE sensor.sensor_id=monitor.sensor_id"
+    sql = "SELECT * FROM sensor,monitor WHERE sensor.identification=monitor.identification"
     try:
         values = req.get_json()
         sql += crab.getByConditions(values)

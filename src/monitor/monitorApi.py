@@ -20,5 +20,5 @@ def getMonitors(req):
 
 
 def monitorPojo(data):
-    pojoModel = ['monitor_id', 'sensor_id', 'value', 'create_time']
+    pojoModel = ['monitor_id', 'identification', 'value', 'create_time']
     return crab.toList(pojoModel, data)
