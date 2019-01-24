@@ -19,9 +19,9 @@ def tcpServer():
     try:
         while True:
             time.sleep(0.01)
-            # print('接受tcp数据开启等待')
+            print('接受tcp数据开启等待')
             newData, newAddr = tcpSocket.accept()
-            # print('%s客户端已经连接，准备处理数据' % newAddr[0])
+            print('%s客户端已经连接，准备处理数据' % newAddr[0])
             p = Thread(target=recv, args=(newData, newAddr))
             p.start()
     finally:
@@ -38,10 +38,10 @@ def recv(newData, newAddr):
             for i in recvData:
                 crab.sqlExe(
                     "INSERT INTO monitor(identification,value) values (\"{}\",{})".format(i['Name'], i['Value']))
-            # print(recvData)
+            print(recvData)
             newData.send('upload ok'.encode('utf-8'))
         else:
-            # print('%s客户端已经关闭' % newAddr[0])
+            print('%s客户端已经关闭' % newAddr[0])
             break
     newData.close()
 
