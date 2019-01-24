@@ -4,7 +4,8 @@ import src.crabapple as crab
 
 # list monitor
 def getMonitors(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0, "Your identity is not identified!")
     sql = "SELECT * FROM monitor"
     try:

@@ -1,6 +1,7 @@
 # encoding:utf-8
 # 外部文件引入
 # 依赖模块
+import base64
 import hashlib
 import time
 from random import sample
@@ -57,7 +58,7 @@ def checkToken(req):
     sql = u"SELECT user_id,end_time FROM user WHERE token='{}'".format(token)
     p = sqlExe(sql)
     if len(p)==0:
-        return False
+        return -1
     else:
         userId=int(p[0][0])
     timestr = str(p[0][1])
@@ -65,9 +66,9 @@ def checkToken(req):
     token_end_time = (int(time.mktime(time.strptime(timestr, "%Y-%m-%d %H:%M:%S"))))
     mines = current_time - token_end_time
     if 0 < mines and mines < 3600:
-        return True
+        return userId
     else:
-        return False
+        return -1
 
 
 # return data
@@ -95,14 +96,9 @@ def setHeder(response):
     response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
     return response
 
-# 随机生成一组10位字符串
-def getRandomStr():
-    Num = [i for i in range(36)]
-    for i in range(10):
-        Num[i] = chr(i + ord('0'))
-    for i in range(26):
-        Num[10 + i] = chr(i + ord('A'))
-    return str(''.join(sample(Num, 10)))
+# 生成token
+def getRandomStr(userId):
+    return str(userId)+'.'+str(base64.b64encode(str(time.time()).encode('utf-8')), 'utf-8')
 
 
 
@@ -126,9 +122,9 @@ def getByConditions(conList):
         sql=" "
         for i in conList:
             if i=='begin_time':
-                sql+=" create_time > \""+str(conList['begin_time'])+"\""
+                sql+="AND create_time > \""+str(conList['begin_time'])+"\""
             elif i=='end_time':
-                sql+=" create_time < "+"\""+str(conList['end_time'])+"\""
+                sql+="AND create_time < "+"\""+str(conList['end_time'])+"\""
             else:
                 if isinstance(conList[i], str):
                     sql += (" " + str(i) + " = " +"\"" +str(conList[i])+"\"")
@@ -138,3 +134,5 @@ def getByConditions(conList):
                 sql+=" AND"
             index+=1
         return sql
+
+

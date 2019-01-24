@@ -6,9 +6,9 @@ import src.crabapple as crab
 
 # add device
 def addDevice(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
-    userId=crab.getUserId()
     values = req.get_json()
     try:
         sql="INSERT INTO device(device_name,device_type,place,is_control,is_public,user_id) VALUES("\
@@ -22,7 +22,8 @@ def addDevice(req):
 
 # del device
 def delDevice(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     values=req.get_json()
     device_id=int(values['device_id'])
@@ -36,7 +37,8 @@ def delDevice(req):
 
 # edit device
 def editDevice(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     values = req.get_json()
     device_id=values['device_id']
@@ -58,7 +60,8 @@ def editDevice(req):
 
 # list device
 def getDevices(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     sql = "SELECT * FROM device"
     try:
@@ -75,7 +78,8 @@ def getDevices(req):
 
 # current user's device
 def getCurrentDevices(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     try:
         sql = "SELECT * FROM device WHERE user_id={}".format(crab.getUserId())
@@ -87,7 +91,8 @@ def getCurrentDevices(req):
 
 #设备传感器级联
 def getDeviceAndsensorList(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0, "Your identity is not identified!")
     sql = "SELECT * FROM device,sensor WHERE device.device_id=sensor.device_id"
     try:

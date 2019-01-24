@@ -5,9 +5,9 @@ import src.crabapple as crab
 
 # add sensor
 def addSensor(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
-    userId=crab.getUserId()
     values = req.get_json()
     try:
         sql="INSERT INTO sensor(device_id,identification,sensor_name,sensor_type,unit,value_max,value_min," \
@@ -23,7 +23,8 @@ def addSensor(req):
 
 # del sensor
 def delSensor(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     values=req.get_json()
     sensor_id=int(values['sensor_id'])
@@ -37,7 +38,8 @@ def delSensor(req):
 
 # edit sensor
 def editSensor(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     values = req.get_json()
     sensor_id=values['sensor_id']
@@ -64,7 +66,8 @@ def editSensor(req):
 
 # sensor
 def getSensors(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     sql = "SELECT * FROM sensor"
     try:
@@ -81,7 +84,8 @@ def getSensors(req):
 
 # 传感器数据级联
 def getSensorAndDataList(req):
-    if not crab.checkToken(req):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(0,"Your identity is not identified!")
     sql = "SELECT * FROM sensor,monitor WHERE sensor.identification=monitor.identification"
     try:
@@ -90,7 +94,7 @@ def getSensorAndDataList(req):
     except:
         sql=sql
     try:
-        res=sensorPojo(crab.sqlExe(sql))
+        res=sensorDataPojo(crab.sqlExe(sql))
         return crab.responseDate(0,res)
     except:
         return crab.responseMsg(1,"Get sensor and data information failure!")

@@ -116,11 +116,7 @@ def getRank():
     return tcp.getRank(request)
 
 
-
-
-
 #开启接受数据服务
-# tcp.tcpServer()
 try:
     _thread.start_new_thread(tcp.tcpServer, ())
 except:
@@ -130,6 +126,6 @@ except:
 
 if __name__ == "__main__":
     app.config['JSON_AS_ASCII'] = False
-    app.run(host='0.0.0.0',port=5000,debug=False)
+    app.run(host='0.0.0.0',port=92,debug=False)
 
 

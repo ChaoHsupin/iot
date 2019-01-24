@@ -12,7 +12,7 @@ def login(req):
         sqlRes = crab.sqlExe(u"SELECT user_id,password FROM user WHERE name='{}'".format(name))
         userId = sqlRes[0][0]
         resPassword = sqlRes[0][1]
-        newToken = crab.getRandomStr()
+        newToken = crab.getRandomStr(userId)
         if resPassword == password:
             crab.sqlExe("UPDATE user SET token=\"{}\" WHERE user_id={}".format(newToken, userId))
             return crab.responsToken(newToken)
@@ -25,10 +25,11 @@ def login(req):
 # logout
 def logout(req):
     token = req.headers["Authorization"]
-    if not crab.checkToken(token):
+    userId=crab.checkToken(req)
+    if userId==-1:
         return crab.responseMsg(1, "Your token had overtime!")
     try:
-        newToken = crab.getRandomStr()
+        newToken = crab.getRandomStr(userId)
         sqll = "UPDATE user SET token=\"{}\" WHERE token=\"{}\"".format(newToken, token)
         crab.sqlExe(sqll)
         return crab.responseMsg(0, "Logout successfully!")
