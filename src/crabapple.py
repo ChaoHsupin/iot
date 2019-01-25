@@ -85,7 +85,7 @@ def responseMsg(code, info):
 
 # return token
 def responsToken(token):
-    res=responseMsg(0,"Login successfully!")
+    res=responseDate(0,{"token":token})
     res.headers['Authorization'] = token
     return res
 
