@@ -32,7 +32,7 @@ def recv(newData, newAddr):
     while True:
         recvData = newData.recv(1024)
         if len(recvData) > 0:
-            recvData=str(recvData)
+            recvData = str(recvData)
             receveInfo = json.loads(recvData[2:len(recvData) - 4])
             recvData = receveInfo['data']
             for i in recvData:
@@ -48,8 +48,8 @@ def recv(newData, newAddr):
 
 # 获取当前用户传感器不同档位值
 def getRank(req):
-    userId=crab.checkToken(req)
-    if userId==-1:
+    userId = crab.checkToken(req)
+    if userId == -1:
         return crab.responseMsg(0, "Your identity is not identified!")
     tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_client.connect(('tcp.lewei50.com', 9960))
@@ -62,8 +62,8 @@ def getRank(req):
             tcp_client.send('{"method":"getcear"}&^!'.encode('utf-8'))
             recv_data = tcp_client.recv(1024)
             resStr = recv_data.decode('utf-8')
-            return crab.responseDate(0,resStr)
+            return crab.responseDate(0, resStr)
     except:
-         return crab.responseMsg(1,'had exception')
+        return crab.responseMsg(1, 'had exception')
     finally:
         tcp_client.close()

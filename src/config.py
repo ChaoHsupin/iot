@@ -1,4 +1,4 @@
-#encoding:utf-8
+# encoding:utf-8
 
 
 import pymysql
@@ -11,5 +11,6 @@ def getResponse(response):
     response.headers['Content-Type'] = 'application/json'
     return response
 
-def log(type,context):
-    print((time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))," "+type+" "+context)
+
+def log(type, context):
+    print((time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))), " " + type + " " + context)
