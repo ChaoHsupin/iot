@@ -67,7 +67,7 @@ def checkToken(req):
         current_time = (int(time.time()))
         token_end_time = (int(time.mktime(time.strptime(timestr, "%Y-%m-%d %H:%M:%S"))))
         mines = current_time - token_end_time
-        if 0 < mines and mines < 3600:
+        if 0 < mines and mines < 36000:
             return userId
         else:
             return -1
