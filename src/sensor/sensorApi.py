@@ -99,6 +99,26 @@ def getSensorAndDataList(req):
         return crab.responseMsg(1, "Get sensor and data information failure!")
 
 
+# 当前状态列表
+def getCurrentList(req):
+    userId = crab.checkToken(req)
+    if userId == -1:
+        return crab.responseMsg(0, "Your identity is not identified!")
+    sql = "SELECT * FROM device,sensor,monitor WHERE device.device_id=sensor.device_id AND" \
+          " sensor.identification=monitor.identification AND device.user_id={} " \
+          "ORDER BY monitor.identification DESC,monitor.create_time DESC ".format(userId)
+    try:
+        res = deviceSensorDataPojo(crab.sqlExe(sql))
+        length=len(res)
+        resu=[]
+        for i in range(length):
+            if  i==0 or res[i]['identification']!=res[i-1]['identification']:
+                resu.append(res[i])
+        return crab.responseDate(0, resu)
+    except:
+        return crab.responseMsg(1, "Get sensor and data information failure!")
+
+
 def sensorPojo(data):
     pojoModel = ['sensor_id', 'device_id', 'identification', 'sensor_name', 'sensor_type', 'unit', 'value_max',
                  'value_min', 'is_warn', 'sort']
@@ -107,5 +127,12 @@ def sensorPojo(data):
 
 def sensorDataPojo(data):
     pojoModel = ['sensor_id', 'device_id', 'identification', 'sensor_name', 'sensor_type', 'unit', 'value_max',
+                 'value_min', 'is_warn', 'sort', 'monitor_id', 'sensor_id', 'value', 'create_time']
+    return crab.toList(pojoModel, data)
+
+
+def deviceSensorDataPojo(data):
+    pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id',
+                 'sensor_id', 'device_id', 'identification', 'sensor_name', 'sensor_type', 'unit', 'value_max',
                  'value_min', 'is_warn', 'sort', 'monitor_id', 'sensor_id', 'value', 'create_time']
     return crab.toList(pojoModel, data)

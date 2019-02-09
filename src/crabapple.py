@@ -4,7 +4,6 @@
 import base64
 import hashlib
 import time
-from random import sample
 import pymysql
 from DBUtils.PooledDB import PooledDB
 from flask import jsonify, make_response
@@ -55,21 +54,24 @@ def getUserId():
 
 # 检查token是否过期
 def checkToken(req):
-    token = req.headers["Authorization"]
-    global userId
-    sql = u"SELECT user_id,end_time FROM user WHERE token='{}'".format(token)
-    p = sqlExe(sql)
-    if len(p) == 0:
-        return -1
-    else:
-        userId = int(p[0][0])
-    timestr = str(p[0][1])
-    current_time = (int(time.time()))
-    token_end_time = (int(time.mktime(time.strptime(timestr, "%Y-%m-%d %H:%M:%S"))))
-    mines = current_time - token_end_time
-    if 0 < mines and mines < 3600:
-        return userId
-    else:
+    try:
+        token = req.headers["Authorization"]
+        global userId
+        sql = u"SELECT user_id,end_time FROM user WHERE token='{}'".format(token)
+        p = sqlExe(sql)
+        if len(p) == 0:
+            return -1
+        else:
+            userId = int(p[0][0])
+        timestr = str(p[0][1])
+        current_time = (int(time.time()))
+        token_end_time = (int(time.mktime(time.strptime(timestr, "%Y-%m-%d %H:%M:%S"))))
+        mines = current_time - token_end_time
+        if 0 < mines and mines < 3600:
+            return userId
+        else:
+            return -1
+    except:
         return -1
 
 
@@ -97,7 +99,7 @@ def responsToken(token):
 # Set heder information
 def setHeder(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,POST'
     response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
     return response
 

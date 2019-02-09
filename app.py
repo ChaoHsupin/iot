@@ -110,6 +110,11 @@ def deviceAndsensorList():
 def sensorAndDataList():
     return sensorApi.getSensorAndDataList(request)
 
+#当前用户设备数据信息
+@app.route('/getCurrentInfoList/list', methods=['POST'])
+def currentInfoList():
+    return sensorApi.getCurrentList(request)
+
 #获取档位值
 @app.route('/getRank', methods=['POST'])
 def getRank():
