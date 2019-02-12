@@ -130,9 +130,9 @@ def getByConditions(conList):
         sql = " "
         for i in conList:
             if i == 'begin_time':
-                sql += "AND create_time > \"" + str(conList['begin_time']) + "\""
+                sql += " create_time > \"" + str(conList['begin_time']) + "\""
             elif i == 'end_time':
-                sql += "AND create_time < " + "\"" + str(conList['end_time']) + "\""
+                sql += " create_time < " + "\"" + str(conList['end_time']) + "\""
             else:
                 if isinstance(conList[i], str):
                     sql += (" " + str(i) + " = " + "\"" + str(conList[i]) + "\"")

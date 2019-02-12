@@ -93,44 +93,43 @@ def sensorEdit():
 def sensors():
     return sensorApi.getSensors(request)
 
+
 # 监测数据获取
 @app.route('/monitor/list', methods=['POST'])
 def monitorList():
     return monitorApi.getMonitors(request)
 
 
-#设备-传感器级联查询
+# 设备-传感器级联查询
 @app.route('/deviceAndsensor/list', methods=['POST'])
 def deviceAndsensorList():
     return deviceApi.getDeviceAndsensorList(request)
 
 
-#传感器-数据级联查询
+# 传感器-数据级联查询
 @app.route('/sensorAndData/list', methods=['POST'])
 def sensorAndDataList():
     return sensorApi.getSensorAndDataList(request)
 
-#当前用户设备数据信息
+
+# 当前用户设备数据信息
 @app.route('/getCurrentInfoList/list', methods=['POST'])
 def currentInfoList():
     return sensorApi.getCurrentList(request)
 
-#获取档位值
+
+# 获取档位值
 @app.route('/getRank', methods=['POST'])
 def getRank():
     return tcp.getRank(request)
 
 
-#开启接受数据服务
+# 开启接受数据服务
 try:
     _thread.start_new_thread(tcp.tcpServer, ())
 except:
-   print ("Error: unable to start thread")
-
-
+    print("Error: unable to start thread")
 
 if __name__ == "__main__":
     app.config['JSON_AS_ASCII'] = False
-    app.run(host='0.0.0.0',port=92,debug=False)
-
-
+    app.run(host='0.0.0.0', port=92, debug=False)
