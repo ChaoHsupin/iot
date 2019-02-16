@@ -89,6 +89,7 @@ def getSensorAndDataList(req):
     sql = "SELECT * FROM sensor,monitor WHERE sensor.identification=monitor.identification"
     try:
         values = req.get_json()
+        sql +=" AND"
         sql += crab.getByConditions(values)
     except:
         sql = sql
