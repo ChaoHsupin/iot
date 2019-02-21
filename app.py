@@ -10,6 +10,7 @@ import src.device.deviceApi as deviceApi
 import src.monitor.monitorApi as monitorApi
 import src.sensor.sensorApi as sensorApi
 import src.user.userApi as userApi
+import src.vpt.vptApi as vptApi
 import src.tcp.tcp as tcp
 
 app = Flask(__name__)
@@ -118,10 +119,29 @@ def currentInfoList():
     return sensorApi.getCurrentList(request)
 
 
-# 获取档位值
-@app.route('/getRank', methods=['POST'])
-def getRank():
-    return tcp.getRank(request)
+# 添加档位原本
+@app.route('/vpt/add', methods=['POST'])
+def vptAdd():
+    return vptApi.addVpt(request)
+
+
+# 删除档位
+@app.route('/vpt/del', methods=['POST'])
+def vptDel():
+    return vptApi.delVpt(request)
+
+
+# 修改档位
+@app.route('/vpt/edit', methods=['POST'])
+def vptEdit():
+    return vptApi.editVpt(request)
+
+
+# 查询档位 String[deviceId]  不填返回所有
+@app.route('/vpt/list', methods=['POST'])
+def vpts():
+    return vptApi.getVpts(request)
+
 
 
 # 开启接受数据服务

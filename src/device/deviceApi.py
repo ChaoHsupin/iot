@@ -108,12 +108,12 @@ def getDeviceAndsensorList(req):
 
 
 def devicePojo(data):
-    pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id']
+    pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id','vpt_id']
     return crab.toList(pojoModel, data)
 
 
 def deviceSensorPojo(data):
-    pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id',
+    pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id','vpt_id',
                  'sensor_id', 'device_id', 'identification', 'sensor_name', 'sensor_type', 'unit', 'value_max',
                  'value_min', 'is_warn', 'sort']
     return crab.toList(pojoModel, data)

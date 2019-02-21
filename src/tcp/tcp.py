@@ -29,17 +29,51 @@ def tcpServer():
 
 
 def recv(newData, newAddr):
+    device_id=-1
+    user_id=-1
     while True:
         recvData = newData.recv(1024)
         if len(recvData) > 0:
             recvData = str(recvData)
             receveInfo = json.loads(recvData[2:len(recvData) - 4])
-            recvData = receveInfo['data']
-            for i in recvData:
-                crab.sqlExe(
-                    "INSERT INTO monitor(identification,value) values (\"{}\",{})".format(i['Name'], i['Value']))
-            print(recvData)
-            newData.send('upload ok'.encode('utf-8'))
+            method=receveInfo['method']
+            if method=='update':
+                try:
+                    device_id=int(receveInfo['gatewayNo'])
+                    user_id=int(receveInfo['userkey'])
+                    re=crab.sqlExe("SELECT COUNT(*) FROM user a,device b WHERE"
+                                   " a.user_id=b.user_id AND a.user_id={} AND b.device_id={}".format(user_id,device_id))
+                    if int(re[0][0]) ==1:
+                        newData.send('OK'.encode('utf-8'))
+                    else:
+                        device_id = -1
+                        user_id = -1
+                        continue
+                except:
+                    device_id = -1
+                    user_id = -1
+                    continue
+            elif method=='upload':
+                if device_id==-1 or user_id==-1:
+                    continue
+                try:
+                    recvData = receveInfo['data']
+                    for i in recvData:
+                        crab.sqlExe(
+                            "INSERT INTO monitor(device_id,identification,value) values (\"{}\",\"{}\",{})".format(device_id,i['Name'], i['Value']))
+                    print(recvData)
+                    newData.send('upload OK'.encode('utf-8'))
+                except:
+                    continue
+            elif method=='getcear':
+                if device_id==-1 or user_id==-1:
+                    continue
+                try:
+                    re=crab.sqlExe("SELECT b.value FROM device a,vpt b WHERE a.vpt_id=b.vpt_id AND a.device_id={}".format(device_id))
+                    newData.send(str(re[0][0]).encode('utf-8'))
+                except:
+                    continue
+
         else:
             print('%s客户端已经关闭' % newAddr[0])
             break
