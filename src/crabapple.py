@@ -8,10 +8,10 @@ import pymysql
 from DBUtils.PooledDB import PooledDB
 from flask import jsonify, make_response
 
-db_config = {"host": "localhost",
+db_config = {"host": "www.crabapple.xyz",
              "user": "root",
              "passwd": "123456",
-             "db": "iot",
+             "db": "IOT",
              "charset": "utf8"
              }
 
