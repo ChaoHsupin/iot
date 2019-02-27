@@ -9,9 +9,9 @@ from DBUtils.PooledDB import PooledDB
 from flask import jsonify, make_response
 
 db_config = {"host": "www.crabapple.xyz",
-             "user": "root",
+             "user": "iot",
              "passwd": "123456",
-             "db": "IOT",
+             "db": "iot",
              "charset": "utf8"
              }
 
