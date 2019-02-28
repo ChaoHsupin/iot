@@ -135,5 +135,5 @@ def sensorDataPojo(data):
 def deviceSensorDataPojo(data):
     pojoModel = ['device_id', 'device_name', 'device_type', 'place', 'is_control', 'is_public', 'user_id','vpt_id',
                  'sensor_id', 'device_id', 'identification', 'sensor_name', 'sensor_type', 'unit', 'value_max',
-                 'value_min', 'is_warn', 'sort', 'monitor_id', 'sensor_id', 'value', 'create_time']
+                 'value_min', 'is_warn', 'sort', 'monitor_id', 'device_id','identification', 'value', 'create_time']
     return crab.toList(pojoModel, data)
