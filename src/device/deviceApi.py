@@ -49,9 +49,9 @@ def editDevice(req):
             res = res[0]
             for i in values:
                 res[i] = values[i]
-            sql = "UPDATE device SET device_name=\"{}\", device_type=\"{}\", place=\"{}\", is_control={}, is_public={} WHERE " \
+            sql = "UPDATE device SET device_name=\"{}\", device_type=\"{}\", place=\"{}\", is_control={}, is_public={}, vpt_id={} WHERE " \
                   "device_id={}".format(res['device_name'], res['device_type'], res['place'], res['is_control'],
-                                        res['is_public'], res['device_id'])
+                                        res['is_public'],res['vpt_id'], res['device_id'])
             crab.sqlExe(sql)
             return crab.responseMsg(0, "Edit device information successfully!")
         except:
